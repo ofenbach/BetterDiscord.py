@@ -7,7 +7,7 @@ import threading
 from tkinter import *
 from tkinter import ttk
 
-from wxui import UI
+from ui import UI
 
 class Client:
 
