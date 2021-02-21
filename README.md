@@ -1,5 +1,5 @@
 # BetterDiscord.py
-Voice Chat with less delay than discord
+Beautiful 100% Python made Voice Chat with less delay than discord!
 
 # idea
 Discord has quite a delay which is especially annoying e.g. for musicians who want to play together.
