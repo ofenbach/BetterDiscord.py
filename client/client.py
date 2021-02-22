@@ -16,7 +16,7 @@ class Client:
         # server selection
         self.ip = '54.37.205.19'
         #self.ip = '192.168.2.56'
-        self.port = 1024        # default main channel
+        self.port = 1024        # default main room
 
         # Default Audio Settings
         self.chunk_size = 64  # 1024
@@ -28,15 +28,17 @@ class Client:
         self.muted = False
         self.deaf = False
 
-        self.connect_channel(self.port)
+        self.connect_room(self.port)
         self.render_ui()
 
-    def connect_channel(self, port):
+    def connect_room(self, port):
+        """ Connects the client to a new SOCKET
+        TODO: Fix crash when leaving channel (somehow the user doesnt disconnect from the previous socket/room -> Broken Pipe """
         # create socket
         self.s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
         # connect
-        self.s.connect((self.ip, self.port))
+        self.s.connect((self.ip, port))
 
         # initialise microphone recording
         self.p = pyaudio.PyAudio()
@@ -44,7 +46,7 @@ class Client:
         self.recording_stream = self.p.open(format=self.audio_format, channels=self.channels, rate=self.rate, input=True, frames_per_buffer=self.chunk_size)
 
         # Success Message
-        print("Connected to Server: " + self.ip)
+        print("Connected to Server: " + self.ip + ":" + str(self.port))
 
         # start threads
         receive_thread = threading.Thread(target=self.receive_server_data).start()
@@ -56,8 +58,9 @@ class Client:
             try:
                 data = self.s.recv(self.chunk_size)
                 if (not self.deaf):
-                    self.playing_stream.write(data) # TODO: if deaf dont
+                    self.playing_stream.write(data)
             except:
+                self.s.close()
                 print("Error while receiving server data!")
 
     def send_data_to_server(self):
@@ -68,10 +71,10 @@ class Client:
                 if (not self.muted):
                     self.s.sendall(data)
             except Exception as e:
+                self.s.close()
                 print("Error while sending data to server!")
                 print(e)
 
 
     def render_ui(self):
        UI.drawUI(self)
-        

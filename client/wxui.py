@@ -8,52 +8,49 @@ class UI:
         
         def OnClicked(event):
             pass
-            
+
+        # room switch event
         def OnRooms(event):
             if rooms.GetStringSelection() == "Lobby":
-                print("Channel switched: main")      # set channel main
-                self.connect_channel(1024)
+                print("room switched: main")      # set room main
+                self.connect_room(1024)
             elif rooms.GetStringSelection() == "Room 1":
-                print("Channel switched: Room 1")
-                self.connect_channel(1025)
-            elif rooms.GetStringSelection() == "Secret Channel":
-                print("Channel switched: Secret Channel")
-                self.connect_channel(1337)
+                print("room switched: Room 1")
+                self.connect_room(1025)
+            elif rooms.GetStringSelection() == "Secret room":
+                print("room switched: Secret room")
+                self.connect_room(1337)
             elif rooms.GetStringSelection() == "Null":
-                print("Channel switched: Null")
-                self.connect_channel(6969)
+                print("room switched: Null")
+                self.connect_room(6969)
 
+        # options events
         def OnMute(event):
-            muted = not muted
-            print("muted " + str(muted))  # set channel main
-
+            self.muted = not self.muted
+            print("muted " + str(self.muted))
         def OnDeaf(event):
-            deaf = not deaf
-            print("deaf " + str(deaf))  # set channel main
-            
+            self.deaf = not self.deaf
+            print("deaf " + str(self.deaf))
         def OnLeave(event):
             window.Close()
         
-        
+        # window stuff
         resolution = (1080, 720)
         icon_size = wx.Size(16, 16)
         bsize = (32, 32)
-
         app = wx.App()
+
         # sets the default window size
         window = wx.Frame(None, size=resolution)
         # makes the window so that it can't be shrunk less than the default size
         window.SetMinSize(resolution)
 
-        # set the background color
+        # settings for window
         window.SetBackgroundColour("#030017")
-
-        # set title for app window.
         window.SetTitle("Better Discord (dot) py")
 
         # make panels left, middle and right and set attributes
         panel = wx.Panel(window)
-
         left_panel = wx.Panel(panel, size=(200, wx.EXPAND))
         left_panel.SetBackgroundColour("#261C3B")
         left_panel.SetForegroundColour("white")
@@ -89,7 +86,7 @@ class UI:
         rooms_text.SetForegroundColour("white")
 
         # replaced with listbox!
-        room_list = ["Lobby", "Room 1", "Secret Channel", "Null"]
+        room_list = ["Lobby", "Room 1", "Secret room", "Null"]
         rooms = wx.ListBox(left_panel, size=(190, 360), choices=room_list, style=wx.LB_SINGLE)
         app.Bind(wx.EVT_LISTBOX, OnRooms, rooms)
         

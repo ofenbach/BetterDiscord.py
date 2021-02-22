@@ -11,14 +11,14 @@ class UI:
         # titel
         window.title("Voice Chat 1.0")
 
-        # left: channel overview
-        channel = Label(window, text="Lounges", bg='#261C3B', fg = 'white', font=("Arial Bold", 30), width=10, height=2)
-        channel.grid(column=0, row=0)
+        # left: room overview
+        room = Label(window, text="Lounges", bg='#261C3B', fg = 'white', font=("Arial Bold", 30), width=10, height=2)
+        room.grid(column=0, row=0)
 
-        # channel main button
+        # room main button
         def OnPressed(event):
-            print('Channel switched: main')      # set channel main
-            self.connect_channel(1024)
+            print('room switched: main')      # set room main
+            self.connect_room(1024)
         def OnHover(event):
             main_btn.config(bg='#372957', fg='white')
         def OnLeave(event):
@@ -29,10 +29,10 @@ class UI:
         main_btn.bind('<Leave>', OnLeave)
         main_btn.grid(column=0, row=1)
 
-        # channel side button
+        # room side button
         def OnPressed2(event):
-            print('Channel switched: side')      # set channel main
-            self.connect_channel(1025)
+            print('room switched: side')      # set room main
+            self.connect_room(1025)
         def OnHover2(event):
             side_btn.config(bg='#372957', fg='white')
         def OnLeave2(event):
@@ -50,7 +50,7 @@ class UI:
         # mute button
         def OnPressed3(event):
             self.muted = not self.muted
-            print("muted " + str(self.muted))  # set channel main
+            print("muted " + str(self.muted))  # set room main
             if (self.muted):
                 photo = PhotoImage(file="microphone_muted.png")
                 mute_btn.config(image=photo)
@@ -72,7 +72,7 @@ class UI:
         # deaf button
         def OnPressed4(event):
             self.deaf = not self.deaf
-            print("deaf " + str(self.deaf))  # set channel main
+            print("deaf " + str(self.deaf))  # set room main
 
         def OnHover4(event):
             deaf_btn.config(bg='#372957', fg='white')
