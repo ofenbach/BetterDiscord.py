@@ -15,7 +15,6 @@ class Client:
 
         # server selection
         self.ip = '54.37.205.19'
-        #self.ip = '192.168.2.56'
         self.port = 1024        # default main room
 
         # Default Audio Settings
