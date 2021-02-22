@@ -1,10 +1,10 @@
 import os
 import wx
 from wx.svg import SVGimage
-from client import Client
 
-class UI:        
-    def __init__(self):
+class UI:
+
+    def drawUI(self):
         
         def OnClicked(event):
             pass
@@ -159,5 +159,3 @@ class UI:
         # show everything :P
         window.Show()
         app.MainLoop()
-    
-UI()
