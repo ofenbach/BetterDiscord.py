@@ -27,7 +27,7 @@ class Client:
         self.muted = False
         self.deaf = False
 
-        self.connect_room(self.port)
+        #self.connect_room(self.port)
         self.render_ui()
 
     def connect_room(self, port):

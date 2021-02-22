@@ -52,7 +52,7 @@ class UI:
         # make panels left, middle and right and set attributes
         panel = wx.Panel(window)
         left_panel = wx.Panel(panel, size=(200, wx.EXPAND))
-        left_panel.SetBackgroundColour("#261C3B")
+        left_panel.SetBackgroundColour("#251C3B")
         left_panel.SetForegroundColour("white")
 
 #         # for future expansion
@@ -88,8 +88,9 @@ class UI:
         # replaced with listbox!
         room_list = ["Lobby", "Room 1", "Secret room", "Null"]
         rooms = wx.ListBox(left_panel, size=(190, 360), choices=room_list, style=wx.LB_SINGLE)
+        #rooms.SetBackgroundColour("#251C3B")
+        #rooms.SetItemBackgroundColour("white")
         app.Bind(wx.EVT_LISTBOX, OnRooms, rooms)
-        
         
         # add actions bar
         settings_b = wx.Button(left_panel, size=bsize)
@@ -129,7 +130,7 @@ class UI:
         l_sizer.AddSpacer(10)
         l_sizer.Add(rooms_text)
         l_sizer.AddSpacer(10)
-        l_sizer.Add(rooms, flag=wx.EXPAND | wx.LEFT | wx.RIGHT, border=5)
+        l_sizer.Add(rooms, flag=wx.EXPAND | wx.LEFT | wx.RIGHT, border=10)
 
         # sizer for action buttons
         action_sizer = wx.BoxSizer(wx.HORIZONTAL)
