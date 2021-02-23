@@ -36,7 +36,7 @@ class UI:
         
         # window stuff
         resolution = (1080, 720)
-        icon_size = wx.Size(16, 16)
+        icon_size = wx.Size(24, 24)
         bsize = (32, 32)
         app = wx.App()
 
