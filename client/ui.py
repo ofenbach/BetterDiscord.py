@@ -1,5 +1,8 @@
 from tkinter import *
 
+from client import Client
+
+
 class UI:
 
     def __init__(self):
@@ -52,17 +55,17 @@ class UI:
             self.muted = not self.muted
             print("muted " + str(self.muted))  # set room main
             if (self.muted):
-                photo = PhotoImage(file="microphone_muted.png")
+                photo = PhotoImage(file="mic_muted.svg")
                 mute_btn.config(image=photo)
             else:
-                photo = PhotoImage(file="microphone.png")
+                photo = PhotoImage(file="mic.svg")
                 mute_btn.config(image = photo)
         def OnHover3(event):
             mute_btn.config(bg='#372957', fg='white')
         def OnLeave3(event):
             mute_btn.config(bg='#261C3B', fg='white')
 
-        photo = PhotoImage(file="microphone.png")
+        photo = PhotoImage(file="graphics/mic.svg")
         mute_btn = Label(window, text='mute', image = photo, fg='white', bg='#261C3B', font=("Arial Bold", 20), width=50, height=60)
         mute_btn.bind('<Button-1>', OnPressed3)
         mute_btn.bind('<Enter>', OnHover3)
@@ -87,5 +90,3 @@ class UI:
         deaf_btn.grid(column=2, row=3)
 
         window.mainloop()
-
-#client = Client()
