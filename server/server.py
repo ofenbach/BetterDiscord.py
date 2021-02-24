@@ -1,38 +1,82 @@
-import room
+__author__ = "Tim B. Ofenbach"
+__copyright__ = "Copyright 2021"
+__credits__ = ["l33tlinuxh4x0r"]
+__license__ = ""
+__version__ = "1.0.0"
+__maintainer__ = "Tim B. Ofenbach"
+__email__ = "t.ofenbach@gmail.com"
+__status__ = "Production"
+
+import socket
 import threading
 
 class Server:
-    """ Server that creates two rooms that users can connect too
-    Room 1 Port: 1024, Room 2 Port: 1025
-    It creates a thread for each room
-    TODO: Is it better to use one main socket and everyone connects to that or use a socket for each room? @l33tlinux
-    """
+    """ Server that creates one socket that users can connect to.
+    Users can switch rooms by sending a message to that socket starting with "room_"""
 
-    free_port = 1024         # main room port
+    # server access
+    port = 4848
+    ip = '54.37.205.19'
 
     def __init__(self):
+        """ Server launches, opens socket self.s waiting for users to connect """
 
-        # roomlist entries: (port, name)
-        self.rooms = []  # collect room names
+        self.users = {}     # collect users
 
-        # create rooms
-        self.create_room("main")
-        self.create_room("side")
+        # audio
+        self.chunk_size = 64    # TODO: Perfect combination quality vs. delay
 
-        # message
-        print("Server created:")
-        print("   Main room (0/10)")
-        print("   Side room (0/10)")
+        # setup socket
+        self.s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        self.s.bind((Server.ip, Server.port))
+        self.s.listen()
 
-    def create_room(self, name):
-        self.rooms.append((name, Server.free_port))
-        threading.Thread(target=room.Room, args=(name, Server.free_port,)).start()
-        Server.free_port += 1
-        print("room created: " + str(name))
+        # listen if users connect
+        while True:
+            user, addr = self.s.accept()
+            self.users[user] = "room_main"           # default room: main
+            print("User joined room: " + str(addr) + " " + str(len(self.users)) + "/10")
+            threading.Thread(target=self.receive_audio_from_user, args=(user, addr,)).start()
 
-    def delete_room(self, name, port):
-        """ Remove a room from the list TODO: disconnect socket """
-        self.rooms.remove((name, port))
-        print("room removed: " + name)
+    def receive_audio_from_user(self, user, addr):
+        """ Receives from every user audio """
+
+        while 1:
+
+            try:
+
+                # receive data
+                data = user.recv(self.chunk_size)       # receive audio from user conn
+                string_data = data.decode('utf-8', "ignore")
+
+                # channel switching message?
+                if ("room_" in string_data):
+                    print("User switched channel: " + str(addr) + "  to  " + string_data)
+                    self.users[user] = string_data  # update channel
+
+                # start sending it to everyone
+                self.send_audio_to_users(user, data)    # then send it to everyone else
+
+            except socket.error:
+
+                # Error? Disconnect user
+                del self.users[user]
+                print("User left room: "+ str(len(self.users)))    # slicing out rooms name
+                user.close()
+                break
+
+    def send_audio_to_users(self, sock, data):
+        """ Sends the audio received to every user """
+
+        self.users_copy = self.users.copy() # copy to make sure no one joins while sending data
+
+        # send audio to every user in channel
+        for user in self.users_copy:
+            if user != self.s and user != sock and self.users[user] == self.users[sock]:    # same channel and not himself and not server
+                try:
+                    user.send(data) # send audio to everyone in your channel
+                except Exception as e:
+                    print("Error sending data to a user! " + str(e))
+                    break
 
 server = Server()

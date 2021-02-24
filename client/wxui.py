@@ -13,16 +13,16 @@ class UI:
         def OnRooms(event):
             if rooms.GetStringSelection() == "Lobby":
                 print("room switched: main")      # set room main
-                self.connect_room(1024)
+                self.enter_room("main")
             elif rooms.GetStringSelection() == "Room 1":
                 print("room switched: Room 1")
-                self.connect_room(1025)
+                self.enter_room("room1")
             elif rooms.GetStringSelection() == "Secret room":
                 print("room switched: Secret room")
-                self.connect_room(1337)
+                self.connect_room("room2")
             elif rooms.GetStringSelection() == "Null":
                 print("room switched: Null")
-                self.connect_room(6969)
+                self.connect_room("room3")
 
         # options events
         def OnMute(event):
@@ -85,11 +85,10 @@ class UI:
         rooms_text = wx.StaticText(panel, label="Rooms", size=(200, 20), style=wx.ALIGN_CENTER)
         rooms_text.SetForegroundColour("white")
 
-        # replaced with listbox!
+        # replaced with listbox! # TODO: There is a bug here with the background color
         room_list = ["Lobby", "Room 1", "Secret room", "Null"]
         rooms = wx.ListBox(left_panel, size=(190, 360), choices=room_list, style=wx.LB_SINGLE)
-        #rooms.SetBackgroundColour("#251C3B")
-        #rooms.SetItemBackgroundColour("white")
+        rooms.SetBackgroundColour("#251C3B")
         app.Bind(wx.EVT_LISTBOX, OnRooms, rooms)
         
         # add actions bar
