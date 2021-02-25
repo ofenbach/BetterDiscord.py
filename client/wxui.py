@@ -129,7 +129,7 @@ class UI:
         l_sizer.AddSpacer(10)
         l_sizer.Add(rooms_text)
         l_sizer.AddSpacer(10)
-        l_sizer.Add(rooms, flag=wx.EXPAND | wx.LEFT | wx.RIGHT, border=10)
+        l_sizer.Add(rooms, flag=wx.EXPAND | wx.LEFT | wx.RIGHT, border=5)
 
         # sizer for action buttons
         action_sizer = wx.BoxSizer(wx.HORIZONTAL)
