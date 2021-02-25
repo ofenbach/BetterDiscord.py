@@ -5,7 +5,7 @@ import threading
 
 import pyaudio
 
-from wxui import UI
+import wxui
 
 class Client:
 
@@ -96,6 +96,6 @@ class Client:
 
     def render_ui(self):
         """ Draws wxui.py UI """
-        UI.drawUI(self)
+        wxui.drawUI(self)
 
 Client()
