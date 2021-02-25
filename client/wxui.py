@@ -5,7 +5,7 @@ from wx.svg import SVGimage
 class UI:
 
     def drawUI(self):
-        
+
         def OnClicked(event):
             pass
 
@@ -99,17 +99,17 @@ class UI:
         mute_b = wx.ToggleButton(left_panel, size=bsize)
         mute_b.SetBitmap(bmp_mic)
         mute_b.SetBitmapPressed(bmp_muted)
-        mute_b.Bind(wx.EVT_BUTTON, OnMute)
+        mute_b.Bind(wx.EVT_TOGGLEBUTTON, OnMute)
         
         deaf_b = wx.ToggleButton(left_panel, size=bsize)
         deaf_b.SetBitmap(bmp_deaf)
         deaf_b.SetBitmapPressed(bmp_undeaf)
-        deaf_b.Bind(wx.EVT_BUTTON, OnDeaf)
+        deaf_b.Bind(wx.EVT_TOGGLEBUTTON, OnDeaf)
 
         rnnoise_b = wx.ToggleButton(left_panel, size=bsize)
         rnnoise_b.SetBitmap(bmp_rnnoise)
         rnnoise_b.SetBitmapPressed(bmp_rnnoised)
-        rnnoise_b.Bind(wx.EVT_BUTTON, OnClicked)
+        rnnoise_b.Bind(wx.EVT_TOGGLEBUTTON, OnClicked)
 
         leave_b = wx.Button(left_panel, size=bsize)
         leave_b.SetBitmap(bmp_leave)
@@ -156,3 +156,4 @@ class UI:
         # show everything :P
         window.Show()
         app.MainLoop()
+        
