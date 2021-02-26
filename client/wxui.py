@@ -84,11 +84,8 @@ def drawUI(client):
     rooms_text.SetForegroundColour("white")
 
     # replaced with listbox! # TODO: There is a bug here with the background color
-<<<<<<< HEAD
+
     room_list = ["Void Room (no voice)", "Lobby", "Room 1", "Secret room", "Null"]
-=======
-    room_list = ["Connect", "Room 1", "Secret room", "Null"]
->>>>>>> 4044af245b50b5723e3ffcfc1f8461b3f9f3cc32
     rooms = wx.ListBox(left_panel, size=(190, 360), choices=room_list, style=wx.LB_SINGLE)
     rooms.SetBackgroundColour("#251C3B")
     app.Bind(wx.EVT_LISTBOX, OnRooms, rooms)
