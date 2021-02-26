@@ -19,7 +19,7 @@ class Client:
 
         # server selection
         self.ip = '54.37.205.19' # ip of tims server
-        self.ip = "hackinto.myftp.org"
+        #self.ip = "hackinto.myftp.org"
         #self.ip = "127.0.0.1" #local ip for testing (as long as the server is on the same machine as the client)
         self.port = 4848  # default main room
 
@@ -42,6 +42,7 @@ class Client:
 
         # Success Message
         print("Connected to Server: " + self.ip + ":" + str(self.port))
+        print("Room: " + str(self.current_room))
 
         # start threads
         receive_thread = threading.Thread(target=self.receive_server_data).start()
@@ -62,7 +63,7 @@ class Client:
                 if (not self.deaf or not self.current_room == "Connect"):
                     self.playing_stream.write(data)
 
-            except:
+            except Exception as e:
 
                 # Error? Disconnnect!
                 self.s.close()
@@ -76,7 +77,7 @@ class Client:
 
                 # record audio and send it if not muted
                 data = self.recording_stream.read(self.chunk_size, exception_on_overflow = False)
-                if (not self.muted or not self.current_room == "Connect"):
+                if (not self.muted) and (self.current_room != "Connect"):
                     self.s.sendall(data)
 
             except Exception as e:
