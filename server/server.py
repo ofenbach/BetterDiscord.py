@@ -37,7 +37,7 @@ class Server:
         # listen if users connect
         while True:
             user, addr = self.s.accept()
-            self.users[user] = "main"           # default room: main
+            self.users[user] = "room_main"           # default room: main
             print("Dictionary: ")
             print(self.users)
             print("User joined room: " + str(addr) + " " + str(len(self.users)) + "/10")
@@ -64,7 +64,6 @@ class Server:
 
                     # remove message to not send it to everyone
                     string_data.replace("roomMSGCUT" + room_name + "MSGCUTend", "")
-                    data = string_data.encode()
 
                     print("Dictionary: ")
                     print(self.users)
