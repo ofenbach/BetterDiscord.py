@@ -38,6 +38,7 @@ def drawUI(client):
         client.deaf = not client.deaf
         print("deaf " + str(client.deaf))
     def OnLeave(event):
+        client.stop_client()
         window.Close()
 
     # window stuff
