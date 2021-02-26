@@ -37,7 +37,7 @@ class Server:
         # listen if users connect
         while True:
             user, addr = self.s.accept()
-            self.users[user] = "waiting_room"           # default room: main
+            self.users[user] = "Connect"           # default room: main
             print("Dictionary: ")
             print(self.users)
             print("User joined room: " + str(addr) + " " + str(len(self.users)) + "/10")
