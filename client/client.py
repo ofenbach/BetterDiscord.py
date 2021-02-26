@@ -18,9 +18,9 @@ class Client:
                 starts two threads: sending and receiving audio """
 
         # server selection
-        self.ip = '54.37.205.19' # ip of tims server
+        #self.ip = '54.37.205.19' # ip of tims server
         #self.ip = "hackinto.myftp.org"
-        # self.ip = "127.0.0.1" #local ip for testing (as long as the server is on the same machine as the client)
+        self.ip = "127.0.0.1" #local ip for testing (as long as the server is on the same machine as the client)
         self.port = 4848  # default main room
 
         # Default Audio Settings
