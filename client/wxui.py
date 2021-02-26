@@ -15,11 +15,11 @@ def drawUI(client):
         elif rooms.GetStringSelection() == "Room 1":
             print("room switched: Room 1")
             client.enter_room("room1")
-        elif rooms.GetStringSelection() == "Secret room":
-            print("room switched: Secret room")
+        elif rooms.GetStringSelection() == "Room 2":
+            print("room switched: Room 2")
             client.enter_room("room2")
-        elif rooms.GetStringSelection() == "Null":
-            print("room switched: Null")
+        elif rooms.GetStringSelection() == "Room 3":
+            print("room switched: Room 3")
             client.enter_room("room3")
 
     # options events
@@ -84,7 +84,7 @@ def drawUI(client):
     rooms_text.SetForegroundColour("white")
 
     # replaced with listbox! # TODO: There is a bug here with the background color
-    room_list = ["Connect", "Room 1", "Secret room", "Null"]
+    room_list = ["Connect", "Room 1", "Room 2", "Room 3"]
     rooms = wx.ListBox(left_panel, size=(190, 360), choices=room_list, style=wx.LB_SINGLE)
     rooms.SetBackgroundColour("#251C3B")
     app.Bind(wx.EVT_LISTBOX, OnRooms, rooms)
