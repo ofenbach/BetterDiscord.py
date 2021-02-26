@@ -81,15 +81,21 @@ class Server:
                 break
 
     def send_audio_to_users(self, sock, data):
-        """ Sends the audio received to every user """
+        """ Sends the audio received to every user
+        Params: socket is the user speaking , data the collected audio from the user speaking """
 
-        self.users_copy = self.users.copy() # copy to make sure no one joins while sending data
+        # copy current connected users to make sure no one joins while sending data
+        self.users_copy = self.users.copy()
 
-        # send audio to every user in channel
+        # check every user in server
         for user in self.users_copy:
-            if user != self.s and user != sock: #and self.users[user] == self.users[sock]:    # same channel and not himself and not server
+
+            # if the speaking user is not sending it to himself
+            # if the speaking user is not sending it to the server
+            # if the speaking user is in the same room as the current selected user
+            if user != self.s and user != sock: # and self.users[user] == self.users[sock]:
                 try:
-                    user.send(data) # send audio to everyone in your channel
+                    user.send(data)     # send audio to selected user then for loop chooses next user
                 except Exception as e:
                     print("Error sending data to a user! " + str(e))
                     break
