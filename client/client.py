@@ -13,7 +13,7 @@ class Client:
         """ Client connects to server socket,
                 starts two threads: sending and receiving audio """
 
-        self.current_room = "waiting_room"
+        self.current_room = "Connect"
         self.muted = False
         self.deaf = False
 
@@ -59,7 +59,7 @@ class Client:
 
                 # receive audio and play it if not deaf
                 data = self.s.recv(self.chunk_size)
-                if (not self.deaf or not self.current_room == "waiting_room"):
+                if (not self.deaf or not self.current_room == "Connect"):
                     self.playing_stream.write(data)
 
             except:
@@ -76,7 +76,7 @@ class Client:
 
                 # record audio and send it if not muted
                 data = self.recording_stream.read(self.chunk_size, exception_on_overflow = False)
-                if (not self.muted or not self.current_room == "waiting_room"):
+                if (not self.muted or not self.current_room == "Connect"):
                     self.s.sendall(data)
 
             except Exception as e:
