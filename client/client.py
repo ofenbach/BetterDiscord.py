@@ -14,7 +14,7 @@ class Client:
         starts two threads: sending and receiving audio """
 
         # server selection
-        self.ip = '54.37.205.19'
+        self.ip = '192.168.2.56'#'54.37.205.19'
         self.port = 4848        # default main room
 
         # Default Audio Settings
@@ -90,7 +90,7 @@ class Client:
     def enter_room(self, name):
         """ Sends message to s2 socket with the room name
         Parameter: name of the new room """
-        message = "room_" + str(name)
+        message = "room_" + str(name) + "_end"
         self.s.send(str(message).encode())
 
 

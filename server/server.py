@@ -16,7 +16,9 @@ class Server:
 
     # server access
     port = 4848
-    ip = '54.37.205.19'
+    #ip = '54.37.205.19'
+    ip = socket.gethostbyname(socket.gethostname())
+    print(ip)
 
     def __init__(self):
         """ Server launches, opens socket self.s waiting for users to connect """
@@ -51,10 +53,16 @@ class Server:
 
                 # channel switching message?
                 if ("room_" in string_data):
-                    print("User switched channel: " + str(addr) + "  to  " + string_data)
-                    self.users[user] = string_data  # update channel
 
-                # start sending it to everyone
+                    # find room name
+                    room_name = string_data.split("_")[1]
+                    print("User switched channel: " + str(addr) + "  to  " + room_name)
+                    self.users[user] = room_name  # update channel
+
+                    # remove message to not send it to everyone
+                    string_data.replace("room_" + room_name + "_end", "")
+
+                # start sending audio to everyone
                 self.send_audio_to_users(user, data)    # then send it to everyone else
 
             except socket.error:
