@@ -67,7 +67,7 @@ class Client:
 
                 # Error? Disconnnect!
                 self.s.close()
-                print("Error while receiving server data: " + e)
+                print("Error while receiving server data: " + str(e))
 
     def send_data_to_server(self):
         """ Send audio data to socket """
