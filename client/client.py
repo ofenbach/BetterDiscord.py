@@ -80,7 +80,7 @@ class Client:
 
                 # Error? Disconnect!
                 self.s.close()
-                print("Error while sending data to server: " + e)
+                print("Error while sending data to server: " + str(e))
 
     def enter_room(self, name):
         """ Sends message to s2 socket with the room name
