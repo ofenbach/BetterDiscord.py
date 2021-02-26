@@ -2,33 +2,33 @@ import os
 import wx
 from wx.svg import SVGimage
 
-def drawUI(self):
+def drawUI(client):
+    """ Renders the UI, only starts client when pressing "connect button" """
 
     def OnClicked(event):
         pass
 
     # room switch event
     def OnRooms(event):
-        if rooms.GetStringSelection() == "Lobby":
-            print("room switched: main")      # set room main
-            self.enter_room("main")
+        if rooms.GetStringSelection() == "Connect":
+            client.start_client()
         elif rooms.GetStringSelection() == "Room 1":
             print("room switched: Room 1")
-            self.enter_room("room1")
+            client.enter_room("room1")
         elif rooms.GetStringSelection() == "Secret room":
             print("room switched: Secret room")
-            self.enter_room("room2")
+            client.enter_room("room2")
         elif rooms.GetStringSelection() == "Null":
             print("room switched: Null")
-            self.enter_room("room3")
+            client.enter_room("room3")
 
     # options events
     def OnMute(event):
-        self.muted = not self.muted
-        print("muted " + str(self.muted))
+        client.muted = not client.muted
+        print("muted " + str(client.muted))
     def OnDeaf(event):
-        self.deaf = not self.deaf
-        print("deaf " + str(self.deaf))
+        client.deaf = not client.deaf
+        print("deaf " + str(client.deaf))
     def OnLeave(event):
         window.Close()
 
@@ -84,7 +84,11 @@ def drawUI(self):
     rooms_text.SetForegroundColour("white")
 
     # replaced with listbox! # TODO: There is a bug here with the background color
+<<<<<<< HEAD
     room_list = ["Void Room (no voice)", "Lobby", "Room 1", "Secret room", "Null"]
+=======
+    room_list = ["Connect", "Room 1", "Secret room", "Null"]
+>>>>>>> 4044af245b50b5723e3ffcfc1f8461b3f9f3cc32
     rooms = wx.ListBox(left_panel, size=(190, 360), choices=room_list, style=wx.LB_SINGLE)
     rooms.SetBackgroundColour("#251C3B")
     app.Bind(wx.EVT_LISTBOX, OnRooms, rooms)
