@@ -34,7 +34,7 @@ def drawUI(self):
 
     # window stuff
     resolution = (1080, 720)
-    icon_size = wx.Size(24, 24)
+    icon_size = (16, 16)
     bsize = (32, 32)
     app = wx.App()
 

@@ -17,8 +17,9 @@ class Server:
     # server access
     port = 4848
     #ip = '54.37.205.19'
-    ip = socket.gethostbyname(socket.gethostname())
-    print(ip)
+    #ip = socket.gethostbyname(socket.gethostname())
+    #print(ip)
+    ip = "0.0.0.0"
 
     def __init__(self):
         """ Server launches, opens socket self.s waiting for users to connect """
