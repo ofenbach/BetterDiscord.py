@@ -78,9 +78,10 @@ class Server:
                 del self.users[user]
                 print("User left room: "+ str(len(self.users)))    # slicing out rooms name
                 user.close()
+                del self.users[user]
                 break
 
-    def send_audio_to_users(self, sock, data):
+    def send_audio_to_users(self, speaking_user, data):
         """ Sends the audio received to every user
         Params: socket is the user speaking , data the collected audio from the user speaking """
 
@@ -88,14 +89,14 @@ class Server:
         self.users_copy = self.users.copy()
 
         # check every user in server
-        for user in self.users_copy:
+        for selected_user in self.users_copy:
 
-            # if the speaking user is not sending it to himself
-            # if the speaking user is not sending it to the server
-            # if the speaking user is in the same room as the current selected user
-            if user != self.s and user != sock: # and self.users[user] == self.users[sock]:
+            # I   check so the speaking user is not sending it to the server
+            # II  check so the speaking user is not sending it to himself
+            # III check so the speaking user is in the same room as the current selected user
+            if selected_user != self.s and selected_user != speaking_user and self.users[selected_user] == self.users[speaking_user]:
                 try:
-                    user.send(data)     # send audio to selected user then for loop chooses next user
+                    selected_user.send(data)     # send audio to selected user then for loop chooses next user
                 except Exception as e:
                     print("Error sending data to a user! " + str(e))
                     break
