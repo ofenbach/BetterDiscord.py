@@ -18,16 +18,16 @@ class Client:
                 starts two threads: sending and receiving audio """
 
         # server selection
-        self.ip = '54.37.205.19' # ip of tims server
+        #self.ip = '54.37.205.19' # ip of tims server
         #self.ip = "hackinto.myftp.org"
-        # self.ip = "127.0.0.1" #local ip for testing (as long as the server is on the same machine as the client)
+        self.ip = "127.0.0.1" #local ip for testing (as long as the server is on the same machine as the client)
         self.port = 4848  # default main room
 
         # Default Audio Settings
         self.chunk_size = 1024  # 1024
         self.audio_format = pyaudio.paInt32
         self.channels = 1
-        self.rate = 48000  # 48000
+        self.rate = 48000  # 20000
 
         # create socket
         self.s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)  # for audio
@@ -59,7 +59,7 @@ class Client:
                 if (not self.deaf):
                     self.playing_stream.write(data)
 
-            except Exception as e:
+            except:
 
                 # Error? Disconnnect!
                 self.s.close()

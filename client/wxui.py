@@ -154,4 +154,3 @@ def drawUI(client):
     # show everything :P
     window.Show()
     app.MainLoop()
-        
