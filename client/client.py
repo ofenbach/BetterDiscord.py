@@ -12,15 +12,16 @@ class Client:
     # settings
     muted = False
     deaf = False
+    current_room = "waiting_room"       # default join room
 
     def start_client(self):
         """ Client connects to server socket,
                 starts two threads: sending and receiving audio """
 
         # server selection
-        #self.ip = '54.37.205.19' # ip of tims server
+        self.ip = '54.37.205.19' # ip of tims server
         #self.ip = "hackinto.myftp.org"
-        self.ip = "127.0.0.1" #local ip for testing (as long as the server is on the same machine as the client)
+        #self.ip = "127.0.0.1" #local ip for testing (as long as the server is on the same machine as the client)
         self.port = 4848  # default main room
 
         # Default Audio Settings
@@ -47,6 +48,9 @@ class Client:
         receive_thread = threading.Thread(target=self.receive_server_data).start()
         receive_thread = threading.Thread(target=self.send_data_to_server).start()
 
+    def stop_client(self):
+        self.s.close()
+
     def receive_server_data(self):
         """ Start receiving audio data from the socket """
 
@@ -56,7 +60,7 @@ class Client:
 
                 # receive audio and play it if not deaf
                 data = self.s.recv(self.chunk_size)
-                if (not self.deaf):
+                if (not self.deaf or not Client.current_room == "waiting_room"):
                     self.playing_stream.write(data)
 
             except:
@@ -73,7 +77,7 @@ class Client:
 
                 # record audio and send it if not muted
                 data = self.recording_stream.read(self.chunk_size, exception_on_overflow = False)
-                if (not self.muted):
+                if (not self.muted or not Client.current_room == "waiting_room"):
                     self.s.sendall(data)
 
             except Exception as e:
@@ -87,3 +91,4 @@ class Client:
         Parameter: name of the new room """
         message = "roomMSGCUT" + str(name) + "MSGCUTend"
         self.s.send(str(message).encode())
+        Client.current_room = str(name)

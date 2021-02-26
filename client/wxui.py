@@ -2,6 +2,8 @@ import os
 import wx
 from wx.svg import SVGimage
 
+connected = False
+
 def drawUI(client):
     """ Renders the UI, only starts client when pressing "connect button" """
 
@@ -10,8 +12,14 @@ def drawUI(client):
 
     # room switch event
     def OnRooms(event):
+        global connected
         if rooms.GetStringSelection() == "Connect":
-            client.start_client()
+            if (not connected):
+                client.start_client()
+                connected = True
+            else:
+                client.stop_client()
+                connected = False
         elif rooms.GetStringSelection() == "Room 1":
             print("room switched: Room 1")
             client.enter_room("room1")
