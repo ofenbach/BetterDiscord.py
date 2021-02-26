@@ -64,10 +64,7 @@ class Server:
 
                     # remove message to not send it to everyone
                     string_data.replace("roomMSGCUT" + room_name + "MSGCUTend", "")
-<<<<<<< HEAD
-=======
                     data = string_data.encode('utf-8', "ignore")
->>>>>>> 4044af245b50b5723e3ffcfc1f8461b3f9f3cc32
 
                     print("Dictionary: ")
                     print(self.users)
