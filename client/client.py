@@ -9,18 +9,18 @@ import wxui
 
 class Client:
 
-    def start_client(self):
-        """ Client connects to server socket,
-                starts two threads: sending and receiving audio """
+    def __init__(self):
+        """ Sets default values """
 
+        # default settings
         self.current_room = "Connect"
         self.muted = False
         self.deaf = False
 
         # server selection
-        self.ip = '54.37.205.19' # ip of tims server
-        #self.ip = "hackinto.myftp.org"
-        #self.ip = "127.0.0.1" #local ip for testing (as long as the server is on the same machine as the client)
+        self.ip = '54.37.205.19'  # ip of tims server
+        # self.ip = "hackinto.myftp.org"
+        # self.ip = "127.0.0.1" #local ip for testing (as long as the server is on the same machine as the client)
         self.port = 4848  # default main room
 
         # Default Audio Settings
@@ -30,7 +30,11 @@ class Client:
         self.rate = 48000  # 20000
 
         # create socket
-        self.s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)  # for audio
+        self.s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+
+    def start_client(self):
+        """ Client connects to server socket,
+                starts two threads: sending and receiving audio """
 
         # connect
         self.s.connect((self.ip, self.port))
@@ -49,6 +53,7 @@ class Client:
         receive_thread = threading.Thread(target=self.send_data_to_server).start()
 
     def stop_client(self):
+        """ TODO: Fixing real disconnect """
         self.s.close()
 
     def receive_server_data(self):
