@@ -17,10 +17,10 @@ def drawUI(self):
             self.enter_room("room1")
         elif rooms.GetStringSelection() == "Secret room":
             print("room switched: Secret room")
-            self.connect_room("room2")
+            self.enter_room("room2")
         elif rooms.GetStringSelection() == "Null":
             print("room switched: Null")
-            self.connect_room("room3")
+            self.enter_room("room3")
 
     # options events
     def OnMute(event):
