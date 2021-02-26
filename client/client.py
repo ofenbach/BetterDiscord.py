@@ -22,7 +22,7 @@ class Client:
         self.chunk_size = 1024  # 1024
         self.audio_format = pyaudio.paInt32
         self.channels = 1
-        self.rate = 48000  # 20000
+        self.rate = 48000  # 48000
 
         # Client Settings
         self.muted = False
@@ -65,7 +65,7 @@ class Client:
                 if (not self.deaf):
                     self.playing_stream.write(data)
 
-            except:
+            except Exception as e:
 
                 # Error? Disconnnect!
                 self.s.close()
