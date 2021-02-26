@@ -19,7 +19,7 @@ class Client:
         self.port = 4848        # default main room
 
         # Default Audio Settings
-        self.chunk_size = 64  # 1024
+        self.chunk_size = 1024  # 1024
         self.audio_format = pyaudio.paInt32
         self.channels = 1
         self.rate = 48000  # 20000
@@ -91,7 +91,7 @@ class Client:
     def enter_room(self, name):
         """ Sends message to s2 socket with the room name
         Parameter: name of the new room """
-        message = "room_" + str(name) + "_end"
+        message = "roomMSGCUT" + str(name) + "MSGCUTend"
         self.s.send(str(message).encode())
 
 

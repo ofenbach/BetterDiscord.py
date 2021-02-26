@@ -27,7 +27,7 @@ class Server:
         self.users = {}     # collect users
 
         # audio
-        self.chunk_size = 64    # TODO: Perfect combination quality vs. delay
+        self.chunk_size = 1024    # TODO: Perfect combination quality vs. delay
 
         # setup socket
         self.s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -38,6 +38,8 @@ class Server:
         while True:
             user, addr = self.s.accept()
             self.users[user] = "room_main"           # default room: main
+            print("Dictionary: ")
+            print(self.users)
             print("User joined room: " + str(addr) + " " + str(len(self.users)) + "/10")
             threading.Thread(target=self.receive_audio_from_user, args=(user, addr,)).start()
 
@@ -53,15 +55,18 @@ class Server:
                 string_data = data.decode('utf-8', "ignore")
 
                 # channel switching message?
-                if ("room_" in string_data):
+                if ("roomMSGCUT" in string_data):
 
                     # find room name
-                    room_name = string_data.split("_")[1]
+                    room_name = string_data.split("MSGCUT")[1]
                     print("User switched channel: " + str(addr) + "  to  " + room_name)
                     self.users[user] = room_name  # update channel
 
                     # remove message to not send it to everyone
-                    string_data.replace("room_" + room_name + "_end", "")
+                    string_data.replace("roomMSGCUT" + room_name + "MSGCUTend", "")
+
+                    print("Dictionary: ")
+                    print(self.users)
 
                 # start sending audio to everyone
                 self.send_audio_to_users(user, data)    # then send it to everyone else
@@ -81,7 +86,7 @@ class Server:
 
         # send audio to every user in channel
         for user in self.users_copy:
-            if user != self.s and user != sock and self.users[user] == self.users[sock]:    # same channel and not himself and not server
+            if user != self.s and user != sock: #and self.users[user] == self.users[sock]:    # same channel and not himself and not server
                 try:
                     user.send(data) # send audio to everyone in your channel
                 except Exception as e:
