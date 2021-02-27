@@ -28,20 +28,28 @@ body {
 .roombutton {
   color: #9c98a6;
   background-color: #251c3b;
-  border-radius: 25px;
-  width: 100%;
+  width: 90%;
   height: 5%;
-  text-align: left;
   text-decoration: none;
   font-size: 1em;
   padding: 16px;
   outline: none;
+  border-radius: 25px;
   border: 0;
+  display: flex;
 }
 .roombutton:hover {
   background-color: #463d58;
   border-radius: 10px;
   color: white;
+}
+.roomicon {
+    -webkit-transform-origin: left top;
+  transform: scale(0.9);
+}
+.roomtext {
+padding-top: 10px;
+padding-left: 20px;
 }
 
 /* ROOM OVERVIEW LEFT */

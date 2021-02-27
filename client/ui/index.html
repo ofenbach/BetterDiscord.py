@@ -19,10 +19,27 @@
 
     <!-- Left Sidebar with rooms -->
     <div class="sidenav">
-      <button type="button" onclick="connect_button_pressed()" class = "roombutton">Waiting Room</button>
-      <button type="button" onclick="enter_room('room1')" class = "roombutton">Room 1</button>
-      <button type="button" onclick="enter_room('room2')" class = "roombutton">Room 2</button>
-      <button type="button" onclick="enter_room('room3')" class = "roombutton">Room 3</button>
+      <div type="button" onclick="connect_button_pressed()" class = "roombutton">
+        <img class = "roomicon" src="graphics/wireless.svg"/>
+        <h class = "roomtext">Connect</h>
+      </div>
+      <div type="button" onclick="enter_room('room1')" class = "roombutton">
+        <img class = "roomicon" src="graphics/voiceroomicon.svg"/>
+        <h class = "roomtext">Room1</h>
+      </div>
+      <div type="button" onclick="enter_room('room2')" class = "roombutton">
+        <img class = "roomicon" src="graphics/voiceroomicon.svg"/>
+        <h class = "roomtext">Room2</h>
+      </div>
+      <div type="button" onclick="enter_room('room3')" class = "roombutton">
+        <img class = "roomicon" src="graphics/voiceroomicon.svg"/>
+        <h class = "roomtext">Room3</h>
+      </div>
+      <div type="button" class = "roombutton">
+        <img class = "roomicon" src="graphics/chat.svg"/>
+        <h class = "roomtext">Text Chat</h>
+      </div>
+
     </div>
 
     <!-- User overview in the center -->

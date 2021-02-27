@@ -81,7 +81,9 @@ class Client:
     def send_data_to_server(self):
         """ Send audio data to socket """
 
-        while True:
+        run_loop = True
+
+        while run_loop:
             try:
 
                 # record audio and send it if not muted
@@ -93,6 +95,7 @@ class Client:
 
                 # Error? Disconnect!
                 self.s.close()
+                run_loop = False
                 print("Error while sending data to server: " + str(e))
 
     def enter_room(self, name):
