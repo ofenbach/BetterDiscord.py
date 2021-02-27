@@ -1,9 +1,11 @@
+// Connects python and javascript over bridge eel
+
 function mute_button_pressed() {
   eel.mute_button_pressed()
 }
 
 function deaf_button_pressed() {
-  eel.deaf_button_pressed()
+    eel.deaf_button_pressed()
 }
 
 function connect_button_pressed() {

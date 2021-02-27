@@ -1,46 +1,105 @@
-{
-  box-sizing: border-box;
+.grid-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr;
+  gap: 0px 0px;
+  grid-template-areas:
+    "sidenav roomnav roomnav roomnav"
+    "sidenav roomnav roomnav roomnav"
+    "sidenav buttonnav buttonnav buttonnav";
 }
 
 body {
   margin: 0;
   font-family: Arial, Helvetica, sans-serif;
+  background-color: #020015;
 }
 
-/* Style the room navigation */
 .sidenav {
+  grid-area: sidenav;
   height: 100%;
   width: 20%;
   position: fixed;
   z-index: 1;
-  top: 0;
-  left: 0;
   background-color: #251c3b;
-  overflow-x: hidden;
+  padding: 16px;
+  text-decoration: none;
+}
+.roombutton {
+  color: #9c98a6;
+  background-color: #251c3b;
+  border-radius: 25px;
+  width: 100%;
+  height: 5%;
+  text-align: left;
+  text-decoration: none;
+  font-size: 1em;
+  padding: 16px;
+  outline: none;
+  border: 0;
+}
+.roombutton:hover {
+  background-color: #463d58;
+  border-radius: 10px;
+  color: white;
 }
 
-/* Side navigation rooms */
+/* ROOM OVERVIEW LEFT */
 .sidenav a {
   color: #9c98a6;
   padding: 16px;
   text-decoration: none;
   display: block;
 }
-
-/* Change color of room on hover */
 .sidenav a:hover {
   background-color: #463d58;
   color: white;
 }
 
-.mutebutton {
-  background-color: #020015;
-  outline: 0;
+/* BUTTONS */
+.buttonnav {
+  grid-area: buttonnav;
+  background-color: #0f0a1e;
+  border-radius: 5em;
+  border-color: #151424;
+  height: 30%;
+  align-self: center;
+  position: relative;
+  margin-right: 60px;
+  margin-left: 50px;
+  /*border: 1em;
+  border-style: solid;*/
+}
+.functionbuttons {
+  background-color: #0f0a1e;
+  outline: none;
+  border: 0;
+  -webkit-transform-origin: left top;
+  transform: scale(.25);
 }
 
-/* Style the content */
-.content {
-  margin-left: 50%;
-  padding-left: 50%;
+/* USER VIEW */
+.roomnav {
+  grid-area: roomnav;
   background-color: #020015;
+}
+.userbutton {
+  color: #9c98a6;
+  background-color: #251c3b;
+  border-radius: 15px;
+  width: 30%;
+  height: 50%;
+  text-align: left;
+  text-decoration: none;
+  font-size: 1em;
+  padding: 5%;
+  margin-right: 10%;
+  margin-top: 10%;
+  outline: none;
+  border: 0;
+}
+.userbutton:hover {
+  background-color: #463d58;
+  border-radius: 10px;
+  color: white;
 }

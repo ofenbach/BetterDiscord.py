@@ -5,15 +5,19 @@
   <title>CSS Template</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="style2.css">
+  <link rel="stylesheet" href="style.css">
+
+  <!-- EEL Scripts -->
   <script src="/eel.js"></script>
   <script src="/scripts.js"></script>
+
 </head>
 
 <body>
 
   <div class="grid-container">
 
+    <!-- Left Sidebar with rooms -->
     <div class="sidenav">
       <button type="button" onclick="connect_button_pressed()" class = "roombutton">Waiting Room</button>
       <button type="button" onclick="enter_room('room1')" class = "roombutton">Room 1</button>
@@ -21,23 +25,25 @@
       <button type="button" onclick="enter_room('room3')" class = "roombutton">Room 3</button>
     </div>
 
+    <!-- User overview in the center -->
     <div class="roomnav">
       <button type="button" onclick="" class = "userbutton">User 1</button>
       <button type="button" class = "userbutton">User 2</button>
     </div>
 
+    <!-- Options buttons bottom -->
     <div class="buttonnav">
       <button type="button" onclick="mute_button_pressed()" class = "functionbuttons">
-        <img src="mic.svg" />
+        <img src="graphics/mic.svg"/>
       </button>
       <button type="button" onclick = "deaf_button_pressed()" class = "functionbuttons">
-        <img src="ear_deaf.svg" />
+        <img src="graphics/ear_deaf.svg"/>
       </button>
       <button type="button" class = "functionbuttons">
-        <img src="noise_suppression.svg" />
+        <img src="graphics/noise_suppression.svg" />
       </button>
       <button type="button" onclick="close_program()" class = "functionbuttons">
-        <img src="leave_room.svg" />
+        <img src="graphics/leave_room.svg" />
       </button>
     </div>
 
