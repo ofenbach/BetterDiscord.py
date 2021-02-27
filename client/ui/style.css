@@ -1,0 +1,46 @@
+{
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Style the room navigation */
+.sidenav {
+  height: 100%;
+  width: 20%;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  background-color: #251c3b;
+  overflow-x: hidden;
+}
+
+/* Side navigation rooms */
+.sidenav a {
+  color: #9c98a6;
+  padding: 16px;
+  text-decoration: none;
+  display: block;
+}
+
+/* Change color of room on hover */
+.sidenav a:hover {
+  background-color: #463d58;
+  color: white;
+}
+
+.mutebutton {
+  background-color: #020015;
+  outline: 0;
+}
+
+/* Style the content */
+.content {
+  margin-left: 50%;
+  padding-left: 50%;
+  background-color: #020015;
+}

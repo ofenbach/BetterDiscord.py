@@ -55,11 +55,14 @@ class Client:
     def stop_client(self):
         """ TODO: Fixing real disconnect """
         self.s.close()
+        print("Disconnected")
 
     def receive_server_data(self):
         """ Start receiving audio data from the socket """
 
-        while True:
+        run_loop = True
+
+        while run_loop:
 
             try:
 
@@ -72,6 +75,7 @@ class Client:
 
                 # Error? Disconnnect!
                 self.s.close()
+                run_loop = False
                 print("Error while receiving server data: " + str(e))
 
     def send_data_to_server(self):
@@ -95,5 +99,6 @@ class Client:
         """ Sends message to s2 socket with the room name
         Parameter: name of the new room """
         message = "roomMSGCUT" + str(name) + "MSGCUTend"
+        print("Room switched: " + str(name))
         self.s.send(str(message).encode())
         self.current_room = str(name)
