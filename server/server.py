@@ -36,11 +36,18 @@ class Server:
 
         # listen if users connect
         while True:
+
+            # wait for joins
             user, addr = self.s.accept()
-            self.users[user] = "Connect"           # default room: main
-            print("Dictionary: ")
-            print(self.users)
+
+            # user joined
+            self.users[user] = "Connect"           # default room: Connect
             print("User joined room: " + str(addr) + " " + str(len(self.users)) + "/10")
+
+            # send status info to user TODO: Bug: when user leaves count doesnt decrease
+            self.online_users = str(len(self.users))
+            user.send(self.online_users.encode())
+
             threading.Thread(target=self.receive_audio_from_user, args=(user, addr,)).start()
 
     def receive_audio_from_user(self, user, addr):

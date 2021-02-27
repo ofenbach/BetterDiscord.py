@@ -25,6 +25,25 @@ body {
   padding: 16px;
   text-decoration: none;
 }
+.serverbutton {
+  color: #9c98a6;
+  background-color: #251c3b;
+  width: 90%;
+  height: 5%;
+  text-decoration: none;
+  font-size: 1em;
+  padding: 16px;
+  outline: none;
+  border-radius: 25px;
+  border: 0;
+  display: flex;
+  margin-bottom: 80px;
+}
+.serverbutton:hover {
+  background-color: #463d58;
+  border-radius: 10px;
+  color: white;
+}
 .roombutton {
   color: #9c98a6;
   background-color: #251c3b;
@@ -48,8 +67,15 @@ body {
   transform: scale(0.9);
 }
 .roomtext {
-padding-top: 10px;
-padding-left: 20px;
+    padding-top: 10px;
+    padding-left: 20px;
+}
+
+.online_users_text {
+    color: #9c98a6;
+    padding-left: 20px;
+    padding-top: 500px;
+    margin-top: 500px;
 }
 
 /* ROOM OVERVIEW LEFT */

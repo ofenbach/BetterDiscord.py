@@ -48,6 +48,10 @@ class Client:
         print("Connected to Server: " + self.ip + ":" + str(self.port))
         print("Room: " + str(self.current_room))
 
+        # read server message
+        data = self.s.recv(1024)
+        self.users_online = data.decode('utf-8', "ignore")
+
         # start threads
         receive_thread = threading.Thread(target=self.receive_server_data).start()
         receive_thread = threading.Thread(target=self.send_data_to_server).start()
