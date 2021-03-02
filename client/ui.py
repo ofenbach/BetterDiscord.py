@@ -16,11 +16,13 @@ def startUI(client):
 
         # send message to javascript to update online users
         users_online = client.users_online
+        eel.display_rooms()
         eel.update_users(users_online)
 
     @eel.expose
     def enter_room(room_name):
         client.enter_room(room_name)
+        eel.update_room(room_name + "_button")
     @eel.expose
     def close_program():
         client.stop_client()
