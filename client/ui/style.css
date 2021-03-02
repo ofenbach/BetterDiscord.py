@@ -56,6 +56,7 @@ body {
   border-radius: 25px;
   border: 0;
   display: flex;
+  display: none;
 }
 .roombutton:hover {
   background-color: #463d58;
@@ -92,7 +93,7 @@ body {
 .buttonnav {
   grid-area: buttonnav;
   background-color: #0f0a1e;
-  border-radius: 5em;
+  border-radius: 2em;
   border-color: #151424;
   height: 30%;
   align-self: center;
@@ -108,6 +109,7 @@ body {
   border: 0;
   -webkit-transform-origin: left top;
   transform: scale(.25);
+  padding-top: 60px;
 }
 
 /* USER VIEW */

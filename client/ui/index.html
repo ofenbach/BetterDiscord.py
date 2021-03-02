@@ -20,26 +20,27 @@
     <!-- Left Sidebar with rooms -->
     <div class="sidenav">
 
-      <div type="button" onclick="connect_button_pressed()" class = "serverbutton">
-        <img class = "roomicon" src="graphics/wireless.svg"/>
-        <h class = "roomtext">54.37.205.19</h>
-      </div>
-      <div type="button" onclick="enter_room('room1')" class = "roombutton">
+    <div type="button" onclick="connect_button_pressed()" class = "serverbutton">
+      <img class = "roomicon" src="graphics/wireless.svg"/>
+      <h class = "roomtext">54.37.205.19</h>
+    </div>
+      <div id="room1_button" type="button" onclick="enter_room('room1')" class = "roombutton">
         <img class = "roomicon" src="graphics/voiceroomicon.svg"/>
         <h class = "roomtext">Room1</h>
       </div>
-      <div type="button" onclick="enter_room('room2')" class = "roombutton">
+      <div id="room2_button" type="button" onclick="enter_room('room2')" class = "roombutton">
         <img class = "roomicon" src="graphics/voiceroomicon.svg"/>
         <h class = "roomtext">Room2</h>
       </div>
-      <div type="button" onclick="enter_room('room3')" class = "roombutton">
+      <div id="room3_button" type="button" onclick="enter_room('room3')" class = "roombutton">
         <img class = "roomicon" src="graphics/voiceroomicon.svg"/>
         <h class = "roomtext">Room3</h>
       </div>
-      <div type="button" class = "roombutton">
+      <div id="room4_button" type="button" class = "roombutton">
         <img class = "roomicon" src="graphics/chat.svg"/>
         <h class = "roomtext">Text Chat</h>
       </div>
+
 
       <h id="users_online_text" class = "online_users_text">Not connected</h>
 
