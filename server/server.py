@@ -16,9 +16,6 @@ class Server:
 
     # server access
     port = 4848
-    #ip = '54.37.205.19'
-    #ip = socket.gethostbyname(socket.gethostname())
-    #print(ip)
     ip = "0.0.0.0"
 
     def __init__(self):
@@ -44,9 +41,8 @@ class Server:
             self.users[user] = "Connect"           # default room: Connect
             print("User joined room: " + str(addr) + " " + str(len(self.users)) + "/10")
 
-            # send status info to user TODO: Bug: when user leaves count doesnt decrease
-            self.online_users = str(len(self.users))
-            user.send(self.online_users.encode())
+            # send status info to user (who is in what room)
+            user.send(self.users.encode())
 
             threading.Thread(target=self.receive_audio_from_user, args=(user, addr,)).start()
 
@@ -58,32 +54,37 @@ class Server:
             try:
 
                 # receive data
-                data = user.recv(self.chunk_size)       # receive audio from user conn
+                data = user.recv(self.chunk_size)       # receive meessage from user conn
                 string_data = data.decode('utf-8', "ignore")
 
                 # channel switching message?
-                if ("roomMSGCUT" in string_data):
+                if ("CLIENTMESSAGE" in string_data):
 
-                    # find room name
-                    room_name = string_data.split("MSGCUT")[1]
-                    print("User switched channel: " + str(addr) + "  to  " + room_name)
-                    self.users[user] = room_name  # update channel
+                    # find message
+                    message_position_begin = string_data.find("CLIENTMESSAGE_")
+                    message_position_end = string_data.find("_CLIENTMESSAGEEND")
+                    message_content = string_data[message_position_begin+len("CLIENTMESSAGE_"):message_position_end]
+                    full_message = string_data[message_position_begin:message_position_end+len("_CLIENTMESSAGEEND")]
 
-                    # remove message to not send it to everyone
-                    string_data.replace("roomMSGCUT" + room_name + "MSGCUTend", "")
-                    data = string_data.encode('utf-8', "ignore")
+                    # encode message
+                    message_type = message_content.split("_")[0]   # room switch or something else?
+                    message = message_content.split("_")[1]
 
-                    print("Dictionary: ")
-                    print(self.users)
+                    # execute message
+                    if (message_type == "roomswitch"):
+                        print("User " + str(addr) + " switched to room: " + str(message))
+                        self.users[user] = message                # update room
 
-                # start sending audio to everyone
-                self.send_audio_to_users(user, data)    # then send it to everyone else
+                    # append ip to message
+                    full_message += "_" + str(addr)
+
+                # start sending data to everyone inclusive messages
+                self.send_audio_to_users(user, data)
 
             except socket.error:
 
                 # Error? Disconnect user
-                del self.users[user]
-                print("User left room: "+ str(len(self.users)))    # slicing out rooms name
+                print("User disconnected from Server!")
                 user.close()
                 del self.users[user]
                 break
@@ -105,7 +106,7 @@ class Server:
                 try:
                     selected_user.send(data)     # send audio to selected user then for loop chooses next user
                 except Exception as e:
-                    print("Error sending data to a user! " + str(e))
+                    print("Error sending data to a user! " + str(selected_user))
                     break
 
 server = Server()
