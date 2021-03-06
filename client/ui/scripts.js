@@ -23,16 +23,29 @@ function close_program() {
 
 
 // PYTHON -> JAVASCRIPT
-eel.expose(update_users)
-function update_users(amount) {
+eel.expose(update_users_view)
+function update_users_view(users_connect, users_room1, users_room2, users_room3) {
 
     // DISPLAY USER AMOUNT
     var text = document.getElementById("users_online_text");
-    text.innerText = "Users online: " + amount;
+    text.innerText = "Users online: "  + users_connect;
+
+    // Show dictionairy users in divs
+    var users_div = document.getElementById("room1_users");
+    users_div.innerText = users_room1
+
+    // Show dictionairy users in divs
+    var users_div = document.getElementById("room2_users");
+    users_div.innerText = users_room2
+
+    // Show dictionairy users in divs
+    var users_div = document.getElementById("room3_users");
+    users_div.innerText = users_room3
+
 }
 
-eel.expose(update_room)
-function update_room(room_name) {
+eel.expose(update_room_hover)
+function update_room_hover(room_name) {
     // Updates "hover" effect on selected room
 
     // Remove every other selection
@@ -48,7 +61,7 @@ function update_room(room_name) {
     }
 
     // Select room
-    var room_selected = document.getElementById(room_name);
+    var room_selected = document.getElementById(room_name+"_button");
     room_selected.style.backgroundColor = "#463d58";
     room_selected.style.color = "white";
 

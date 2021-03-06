@@ -21,7 +21,8 @@ class Server:
     def __init__(self):
         """ Server launches, opens socket self.s waiting for users to connect """
 
-        self.users = {}     # collect users
+        self.users = {}     # collect users (sockets)
+        self.ips = {}       # collect ips from users
 
         # audio
         self.chunk_size = 1024    # TODO: Perfect combination quality vs. delay
@@ -39,10 +40,11 @@ class Server:
 
             # user joined
             self.users[user] = "Connect"           # default room: Connect
+            self.ips[addr[0]] = "Connect"
             print("User joined room: " + str(addr) + " " + str(len(self.users)) + "/10")
 
             # send status info to user (who is in what room)
-            user.send(self.users.encode())
+            user.send(str(self.ips).encode())
 
             threading.Thread(target=self.receive_audio_from_user, args=(user, addr,)).start()
 
@@ -74,9 +76,15 @@ class Server:
                     if (message_type == "roomswitch"):
                         print("User " + str(addr) + " switched to room: " + str(message))
                         self.users[user] = message                # update room
+                        self.ips[addr[0]] = message                  # update room
 
-                    # append ip to message
-                    full_message += "_" + str(addr)
+                    string_data.replace(full_message, full_message + "_" + str(addr))
+                    data = string_data.encode()
+
+                    # print messages
+                    print("Message content: " + str(message_content))
+                    print("Full Message: " + str(full_message))
+                    print("Message Type: " + str(message_type))
 
                 # start sending data to everyone inclusive messages
                 self.send_audio_to_users(user, data)

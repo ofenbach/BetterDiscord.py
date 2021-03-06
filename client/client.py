@@ -4,6 +4,7 @@ import socket
 import threading
 
 import pyaudio
+import ast
 
 class Client:
 
@@ -16,9 +17,9 @@ class Client:
         self.deaf = False
 
         # server selection
-        #self.ip = '54.37.205.19'  # ip of tims server
+        self.ip = '54.37.205.19'  # ip of tims server
         # self.ip = "hackinto.myftp.org"
-        self.ip = "127.0.0.1" #local ip for testing (as long as the server is on the same machine as the client)
+        #self.ip = "127.0.0.1" #local ip for testing (as long as the server is on the same machine as the client)
         self.port = 4848  # default main room
 
         # Default Audio Settings
@@ -46,9 +47,9 @@ class Client:
         print("Connected to Server: " + self.ip + ":" + str(self.port))
         print("Room: " + str(self.current_room))
 
-        # read server message
+        # read server join message
         data = self.s.recv(1024)
-        self.users = dict(data.decode('utf-8', "ignore"))
+        self.users = ast.literal_eval(data.decode('utf-8', "ignore"))
 
         # start threads
         receive_thread = threading.Thread(target=self.receive_server_data).start()
@@ -120,7 +121,7 @@ class Client:
         """ Sends message to s socket with the room name
         Parameter: name of the new room """
 
-        message = "CLIENTMESSAGE_roomswitch" + str(name) + "_CLIENTMESSAGEEND"
+        message = "CLIENTMESSAGE_roomswitch_" + str(name) + "_CLIENTMESSAGEEND"
         print("Room switched: " + str(name))
         self.s.send(str(message).encode())
         self.current_room = str(name)
