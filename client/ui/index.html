@@ -21,8 +21,8 @@
     <div class="sidenav">
 
     <div type="button" onclick="connect_button_pressed()" class = "serverbutton">
-      <img class = "roomicon" src="graphics/wireless.svg"/>
-      <h class = "roomtext">54.37.205.19</h>
+      <img class = "servericon" src="graphics/wireless.svg"/>
+      <h class = "servertext">54.37.205.19</h>
     </div>
       <div id="room1_button" type="button" onclick="enter_room('room1')" class = "roombutton">
         <img class = "roomicon" src="graphics/voiceroomicon.svg"/>
@@ -45,7 +45,7 @@
       </div>
 
 
-      <h id="users_online_text" class = "online_users_text">Not connected</h>
+      <p id="users_online_text" class = "online_users_overview">Not connected</p>
 
     </div>
 
@@ -58,16 +58,16 @@
     <!-- Options buttons bottom -->
     <div class="buttonnav">
       <button type="button" onclick="mute_button_pressed()" class = "functionbuttons">
-        <img src="graphics/mic.svg"/>
+        <img class="functionsicon"src="graphics/mic.svg"/>
       </button>
       <button type="button" onclick = "deaf_button_pressed()" class = "functionbuttons">
-        <img src="graphics/ear_deaf.svg"/>
+        <img class="functionsicon"src="graphics/ear_deaf.svg"/>
       </button>
       <button type="button" class = "functionbuttons">
-        <img src="graphics/noise_suppression.svg" />
+        <img class="functionsicon"src="graphics/noise_suppression.svg"/>
       </button>
       <button type="button" onclick="close_program()" class = "functionbuttons">
-        <img src="graphics/leave_room.svg" />
+        <img class="functionsicon"src="graphics/leave_room.svg"/>
       </button>
     </div>
 

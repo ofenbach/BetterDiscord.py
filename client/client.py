@@ -5,6 +5,7 @@ import threading
 
 import pyaudio
 import ast
+import ui
 
 class Client:
 
@@ -90,6 +91,8 @@ class Client:
                     if (message_type == "roomswitch"):
                         print("User switched to room: " + str(message) + str(ip))
                         self.users[ip] = message                                    # update room
+                        # update ui
+                        ui.enter_room(self.current_room)
 
                 if (not self.deaf or not self.current_room == "Connect"):
                     self.playing_stream.write(data)
