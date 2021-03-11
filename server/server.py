@@ -2,7 +2,7 @@ __author__ = "Tim B. Ofenbach"
 __copyright__ = "Copyright 2021"
 __credits__ = ["l33tlinuxh4x0r"]
 __license__ = ""
-__version__ = "1.0.0"
+__version__ = "0.1.0"
 __maintainer__ = "Tim B. Ofenbach"
 __email__ = "t.ofenbach@gmail.com"
 __status__ = "Production"
@@ -21,78 +21,65 @@ class Server:
     def __init__(self):
         """ Server launches, opens socket self.s waiting for users to connect """
 
-        self.users = {}     # collect users (sockets)
-        self.ips = {}       # collect ips from users
-
-        # audio
-        self.chunk_size = 1024    # TODO: Perfect combination quality vs. delay
-
-        # setup socket
-        self.s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        # setup
+        self.users = {}                                             # collect users (sockets)
+        self.ips = {}                                               # collect ips from users ("ip:port": room)
+        self.chunk_size = 1024                                      # TODO: Perfect combination quality vs. delay
+        self.s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)  # start socket
+        self.s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
         self.s.bind((Server.ip, Server.port))
         self.s.listen()
+        print("[SOCKET] Listening ...")
 
-        # listen if users connect
         while True:
 
-            # wait for joins
-            user, addr = self.s.accept()
+            user, addr = self.s.accept()            # wait for joins
 
             # user joined
-            self.users[user] = "Connect"           # default room: Connect
-            self.ips[addr[0]] = "Connect"
-            print("User joined room: " + str(addr) + " " + str(len(self.users)) + "/10")
+            self.users[user] = "Connect"            # default room: Connect
+            ip_port = str(addr[0]) + ":" + str(addr[1])
+            self.ips[ip_port] = "Connect"
+            print("[CONNECT] " + str(ip_port))
+            print("[USERS] " + str(self.ips))
 
-            # send status info to user (who is in what room)
-            user.send(str(self.ips).encode())
-
+            user.send(str(self.ips).encode())       # send status info to user (who is in what room)
             threading.Thread(target=self.receive_audio_from_user, args=(user, addr,)).start()
 
     def receive_audio_from_user(self, user, addr):
         """ Receives from every user audio """
 
         while 1:
-
             try:
 
-                # receive data
-                data = user.recv(self.chunk_size)       # receive meessage from user conn
+                data = user.recv(self.chunk_size)       # receive data from user conn
                 string_data = data.decode('utf-8', "ignore")
 
-                # channel switching message?
-                if ("CLIENTMESSAGE" in string_data):
-
-                    # find message
-                    message_position_begin = string_data.find("CLIENTMESSAGE_")
+                if ("CLIENTMESSAGE" in string_data):    # channel switching message?
+                    message_position_begin = string_data.find("CLIENTMESSAGE_")     # find message in data string
                     message_position_end = string_data.find("_CLIENTMESSAGEEND")
                     message_content = string_data[message_position_begin+len("CLIENTMESSAGE_"):message_position_end]
                     full_message = string_data[message_position_begin:message_position_end+len("_CLIENTMESSAGEEND")]
+                    message_type = message_content.split("_")[0]    # find message type: e.g. roomswitch
+                    message = message_content.split("_")[1]         # actual content
 
-                    # encode message
-                    message_type = message_content.split("_")[0]   # room switch or something else?
-                    message = message_content.split("_")[1]
+                    if (message_type == "roomswitch"):              # execute message
+                        ip_port = str(addr[0]) + ":" + str(addr[1])
+                        self.ips[ip_port] = message
+                        self.users[user] = message
+                        print("[ROOMSWITCH] " + str(ip_port) + " to " + str(message))
 
-                    # execute message
-                    if (message_type == "roomswitch"):
-                        print("User " + str(addr) + " switched to room: " + str(message))
-                        self.users[user] = message                # update room
-                        self.ips[addr[0]] = message                  # update room
+                    print("[STATUS] " + str(self.ips))
 
-                    string_data.replace(full_message, full_message + "_" + str(addr))
+                    string_data.replace(full_message, full_message + "_" + str(addr))   # append IP to message
                     data = string_data.encode()
 
-                    # print messages
-                    print("Message content: " + str(message_content))
-                    print("Full Message: " + str(full_message))
-                    print("Message Type: " + str(message_type))
-
-                # start sending data to everyone inclusive messages
-                self.send_audio_to_users(user, data)
+                self.send_audio_to_users(user, data)    # start sending data to everyone inclusive messages
 
             except socket.error:
 
-                # Error? Disconnect user
-                print("User disconnected from Server!")
+                # Error? Disconnect user TODO: remove IP from self.ips
+                print("[DISCONNECT] " + str(user))
+                print("TODO: Remove IP+Port out of self.ips ")
                 user.close()
                 del self.users[user]
                 break
@@ -101,11 +88,9 @@ class Server:
         """ Sends the audio received to every user
         Params: socket is the user speaking , data the collected audio from the user speaking """
 
-        # copy current connected users to make sure no one joins while sending data
-        self.users_copy = self.users.copy()
+        self.users_copy = self.users.copy()     # copy current connected users to make sure no one joins while sending data
 
-        # check every user in server
-        for selected_user in self.users_copy:
+        for selected_user in self.users_copy:   # check every user in server TODO: Improve performance, not check every user
 
             # I   check so the speaking user is not sending it to the server
             # II  check so the speaking user is not sending it to himself
@@ -114,7 +99,9 @@ class Server:
                 try:
                     selected_user.send(data)     # send audio to selected user then for loop chooses next user
                 except Exception as e:
-                    print("Error sending data to a user! " + str(selected_user))
+                    print("[ERROR] sending to: " + str(selected_user))
+                    selected_user.close()
+                    del self.users[selected_user]
                     break
 
 server = Server()

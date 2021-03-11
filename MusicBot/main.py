@@ -28,7 +28,7 @@ class MusicBot:
         self.song_counter = 0
 
         # connecting
-        self.ip = '54.37.205.19'
+        self.ip = '135.125.207.61'
         self.port = 4848
         self.s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         try:
