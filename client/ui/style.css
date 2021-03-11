@@ -20,11 +20,8 @@ body {
 .sidenav {
   grid-area: sidenav;
   height: 100%;
-  width: 20%;
-  position: fixed;
   z-index: 1;
   background-color: #251c3b;
-  text-decoration: none;
 }
 .serverbutton {
   color: #9c98a6;
@@ -50,8 +47,8 @@ body {
   width:12%;
   height: 12%;
   display: flex;
-    justify-content: center;
-    align-items: center;
+  justify-content: center;
+  align-items: center;
 }
 .servertext {
     display: flex;
@@ -80,11 +77,11 @@ body {
   color: white;
 }
 .roomicon {
-   width:12%;
+  width:12%;
   height: 12%;
   display: flex;
-    justify-content: center;
-    align-items: center;
+  justify-content: center;
+  align-items: center;
 }
 .roomtext {
     display: flex;
@@ -105,56 +102,54 @@ body {
     padding-top: 200px;
 }
 
-/* BUTTONS */
+
+/* FUNCTIONS BUTTON */
 .buttonnav {
   grid-area: buttonnav;
   background-color: #0f0a1e;
-  border-radius: 2em;
+  border-radius: 5em;
   border-color: #151424;
-  margin-right: 80px;
-  margin-left: 50px;
+
   display: flex;
 }
 .functionbuttons {
   background-color: #0f0a1e;
   outline: none;
   border: 0;
-  display: flex;
 }
 .functionsicon {
-  width:25%;
-  height: 50%;
-  display: flex;
-  padding-top: 25px;
-  justify-content: center;
-  align-items: center;
+  transform: scale(0.3);
 }
-
-
 
 
 /* USER VIEW */
 .roomnav {
   grid-area: roomnav;
   background-color: #020015;
+
+  margin-right: 10%;
+  display: flex;
+
+  align-items: center;
 }
 .userbutton {
   color: #9c98a6;
   background-color: #251c3b;
-  border-radius: 15px;
-  width: 30%;
-  height: 50%;
-  text-align: left;
+
+  border-radius: 50%;
+  border: 1px solid #3DC871;
+
+  width: 200px;
+  height: 200px;
+
   text-decoration: none;
   font-size: 1em;
-  padding: 5%;
+
   margin-right: 10%;
-  margin-top: 10%;
-  outline: none;
-  border: 0;
+  margin-left: 10%;
 }
 .userbutton:hover {
   background-color: #463d58;
-  border-radius: 10px;
   color: white;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }

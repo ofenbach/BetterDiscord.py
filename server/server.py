@@ -86,32 +86,6 @@ class Server:
                     print("[USER LEFT] " + str(ip_port))
                     print("[STATUS] " + str(self.ips))
 
-                if ("CLIENTMESSAGE" in string_data):    # channel switching message?
-                    message_position_begin = string_data.find("CLIENTMESSAGE_")     # find message in data string
-                    message_position_end = string_data.find("_CLIENTMESSAGEEND")
-                    message_content = string_data[message_position_begin+len("CLIENTMESSAGE_"):message_position_end]
-                    full_message = string_data[message_position_begin:message_position_end+len("_CLIENTMESSAGEEND")]
-                    message_type = message_content.split("_")[0]    # find message type: e.g. roomswitch
-                    message = message_content.split("_")[1]         # actual content
-
-                    if (message_type == "roomswitch"):              # execute message
-                        ip_port = str(addr[0]) + ":" + str(addr[1])
-                        self.ips[ip_port] = message
-                        self.users[user] = message
-                        print("[ROOMSWITCH] " + str(ip_port) + " to " + str(message))
-
-                    if (message_type == "disconnect"):              # execute message
-                        ip_port = str(addr[0]) + ":" + str(addr[1])
-                        del self.ips[ip_port]
-                        del self.users[user]
-                        print("[DISCONNECT] " + str(ip_port))
-
-                    print("[STATUS] " + str(self.ips))
-
-                    message_data = (str(full_message) + "_" + str(ip_port) + "_IPEND").encode()   # append IP to message
-                    string_data.replace(full_message, "")                       # remove message from audio
-                    data = string_data.encode()
-
                 self.send_audio_to_users(user, data)    # start sending data to everyone inclusive messages
                 self.send_message_to_users(user, message_data)
 

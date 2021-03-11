@@ -20,10 +20,10 @@
     <!-- Left Sidebar with rooms -->
     <div class="sidenav">
 
-    <div type="button" onclick="connect_button_pressed()" class = "serverbutton">
-      <img class = "servericon" src="graphics/wireless.svg"/>
-      <h class = "servertext">54.37.205.19</h>
-    </div>
+      <div type="button" onclick="connect_button_pressed()" class = "serverbutton">
+        <img class = "servericon" src="graphics/wireless.svg"/>
+        <h class = "servertext">54.37.205.19</h>
+      </div>
       <div id="room1_button" type="button" onclick="enter_room('room1')" class = "roombutton">
         <img class = "roomicon" src="graphics/voiceroomicon.svg"/>
         <h class = "roomtext">Room1</h>
@@ -44,15 +44,14 @@
         <h class = "roomtext">Text Chat</h>
       </div>
 
-
       <p id="users_online_text" class = "online_users_overview">Not connected</p>
 
     </div>
 
     <!-- User overview in the center -->
     <div class="roomnav">
-      <button type="button" onclick="" class = "userbutton">User 1</button>
-      <button type="button" class = "userbutton">User 2</button>
+	  <div class="userbutton"></div>
+	  <div class="userbutton"></div>
     </div>
 
     <!-- Options buttons bottom -->
