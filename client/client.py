@@ -47,8 +47,8 @@ class Client:
 
     def stop_client(self):
         """ TODO: Fixing real disconnect """
+        self.send_disconnect()
         self.s.close()
-        print("[DISCONNECTED]")
 
     def receive_server_data(self):
         """ Start receiving audio data from the socket """
@@ -73,12 +73,17 @@ class Client:
                         print("[ROOMSWITCH] " + str(message) + " " + str(ip_port))
                         self.users[ip_port] = message                                    # update room TODO: update ui
 
+                    if (message_type == "disconnect"):              # execute message
+                        print("[USER DISCONNECTED] " + str(ip_port))
+                        del self.users[ip_port]
+
                 if (not self.deaf and not self.current_room == "Connect"):
                     self.playing_stream.write(data)
 
             except Exception as e:
-                self.s.close()
                 print("[ERROR] Receiving Data" + str(e))
+                self.send_disconnect()
+                self.s.close()
                 sys.exit()
 
     def send_data_to_server(self):
@@ -91,6 +96,8 @@ class Client:
                     self.s.sendall(data)
 
             except Exception as e:
+                self.send_disconnect()
+                self.s.close()
                 print("[ERROR] Sending Data" + str(e))
                 sys.exit()
 
@@ -102,3 +109,11 @@ class Client:
         self.s.send(str(message).encode())
         self.current_room = str(name)
         print("[ROOMSWITCH] " + str(name))
+
+    def send_disconnect(self):
+        message = "CLIENTMESSAGE_disconnect_null_CLIENTMESSAGEEND"
+        try:
+            self.s.send(str(message).encode())
+        except:
+            pass
+        print("[DISCONNECT]")

@@ -71,6 +71,12 @@ class Server:
                         self.users[user] = message
                         print("[ROOMSWITCH] " + str(ip_port) + " to " + str(message))
 
+                    if (message_type == "disconnect"):              # execute message
+                        ip_port = str(addr[0]) + ":" + str(addr[1])
+                        del self.ips[ip_port]
+                        del self.users[user]
+                        print("[DISCONNECT] " + str(ip_port))
+
                     print("[STATUS] " + str(self.ips))
 
                     message_data = (str(full_message) + "_" + str(ip_port) + "_IPEND").encode()   # append IP to message
