@@ -70,7 +70,7 @@ class Client:
                     message = message_content.split("_")[1]
 
                     if (message_type == "roomswitch"):              # execute message
-                        print("User switched to room: " + str(message) + str(ip_port))
+                        print("[ROOMSWITCH] " + str(message) + " " + str(ip_port))
                         self.users[ip_port] = message                                    # update room TODO: update ui
 
                 if (not self.deaf and not self.current_room == "Connect"):

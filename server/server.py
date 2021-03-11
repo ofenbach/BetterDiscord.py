@@ -1,25 +1,28 @@
-__author__ = "Tim B. Ofenbach"
-__copyright__ = "Copyright 2021"
-__credits__ = ["l33tlinuxh4x0r"]
-__license__ = ""
-__version__ = "0.1.0"
-__maintainer__ = "Tim B. Ofenbach"
-__email__ = "t.ofenbach@gmail.com"
-__status__ = "Production"
-
 import socket
 import threading
 
+##############   INFO   ##############
+__author__     =    "Tim B. Ofenbach"
+__copyright__  =    "Copyright 2021"
+__credits__    =    ["l33tlinuxh4x0r"]
+__license__    =    ""
+__version__    =    "0.1.0"
+__maintainer__ =    "Tim B. Ofenbach"
+__email__      =    "t.ofenbach@gmail.com"
+__status__     =    "Production"
+######################################
+
 class Server:
-    """ Server that creates one socket that users can connect to.
-    Users can switch rooms by sending a message to that socket starting with "room_"""
+    """ Server that creates one socket that users can connect to
+        Manages rooms (who to send audio to) and client messages """
 
     # server access
     port = 4848
     ip = "0.0.0.0"
 
     def __init__(self):
-        """ Server launches, opens socket self.s waiting for users to connect """
+        """ Server launches, opens socket self.s waiting for users to connect
+            When someone connects, it starts a thread for handling this user """
 
         # setup
         self.users = {}                                             # collect users (sockets)
@@ -46,7 +49,7 @@ class Server:
             threading.Thread(target=self.receive_audio_from_user, args=(user, addr,)).start()
 
     def receive_audio_from_user(self, user, addr):
-        """ Receives from every user audio """
+        """ Receives audio from every user then sends it to everyone in the same room """
 
         while 1:
             try:
@@ -70,10 +73,12 @@ class Server:
 
                     print("[STATUS] " + str(self.ips))
 
-                    string_data.replace(full_message, full_message + "_" + str(addr))   # append IP to message
+                    message_data = (str(full_message) + "_" + str(ip_port) + "_IPEND").encode()   # append IP to message
+                    string_data.replace(full_message, "")                       # remove message from audio
                     data = string_data.encode()
 
                 self.send_audio_to_users(user, data)    # start sending data to everyone inclusive messages
+                self.send_message_to_users(user, message_data)
 
             except socket.error:
 
@@ -102,6 +107,22 @@ class Server:
                     print("[ERROR] sending to: " + str(selected_user))
                     selected_user.close()
                     del self.users[selected_user]
+                    break
+
+    def send_message_to_users(self, speaking_user, message):
+        """ Sends the messaged received to every user
+        Params: message data """
+
+        self.users_copy = self.users.copy()     # copy current connected users to make sure no one joins while sending data
+
+        for user in self.users_copy:            # check every user in server
+            if user != self.s and user != speaking_user:
+                try:
+                    user.send(message)          # send message to every user
+                except Exception as e:
+                    print("[ERROR] sending to: " + str(user))
+                    user.close()
+                    del self.users[user]
                     break
 
 server = Server()
