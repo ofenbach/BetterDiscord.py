@@ -29,7 +29,7 @@ def startUI(client):
     @eel.expose
     def enter_room(room_name):
 
-        client.enter_room(room_name)            # send info to client
+        client.send_message_to_server("ROOMSWITCH_" + room_name + "_END")
         eel.update_room_hover(room_name)        # update ui
 
         # what user is in what room

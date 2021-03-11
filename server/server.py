@@ -57,6 +57,35 @@ class Server:
                 data = user.recv(self.chunk_size)       # receive data from user conn
                 string_data = data.decode('utf-8', "ignore")
 
+                if ("ROOMSWITCH" in string_data):
+                    message_position_begin = string_data.find("ROOMSWITCH_")    # find message in data string
+                    message_position_end = string_data.find("_END")
+                    full_message = string_data[message_position_begin:message_position_end + len("_END")]
+                    message = full_message.split("_")[1]                        # room name
+
+                    ip_port = str(addr[0]) + ":" + str(addr[1])
+                    self.ips[ip_port] = message
+                    self.users[user] = message
+
+                    message_data = (str(full_message) + "_" + str(ip_port) + "_IPEND").encode()  # append IP to message
+                    string_data.replace(full_message, "")  # remove message from audio
+                    data = string_data.encode()
+
+                    print("[ROOMSWITCH] " + str(ip_port) + " to " + str(message))
+                    print("[STATUS] " + str(self.ips))
+
+                if ("DISCONNECT" in string_data):
+                    ip_port = str(addr[0]) + ":" + str(addr[1])
+                    del self.ips[ip_port]
+                    del self.users[user]
+
+                    message_data = ("DISCONNECT_" + str(ip_port) + "_IPEND").encode()       # append IP to message
+                    string_data.replace(full_message, "")                                   # remove message from audio
+                    data = string_data.encode()
+
+                    print("[USER LEFT] " + str(ip_port))
+                    print("[STATUS] " + str(self.ips))
+
                 if ("CLIENTMESSAGE" in string_data):    # channel switching message?
                     message_position_begin = string_data.find("CLIENTMESSAGE_")     # find message in data string
                     message_position_end = string_data.find("_CLIENTMESSAGEEND")

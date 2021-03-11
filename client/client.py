@@ -47,7 +47,7 @@ class Client:
 
     def stop_client(self):
         """ TODO: Fixing real disconnect """
-        self.send_disconnect()
+        self.send_message_to_server("DISCONNECT")
         self.s.close()
 
     def receive_server_data(self):
@@ -58,6 +58,22 @@ class Client:
 
                 data = self.s.recv(self.chunk_size)             # receive audio and play it if not deaf
                 string_data = data.decode('utf-8', "ignore")
+
+                if ("ROOMSWITCH" in string_data):
+                    message_position_begin = string_data.find("ROOMSWITCH_")
+                    message_position_end = string_data.find("_ENDIP")
+                    full_message = string_data[message_position_begin:message_position_end]
+                    room_name = full_message.split("_")[1]
+                    ip_port = full_message.split("_")[2]
+                    self.users[ip_port] = room_name
+
+                if ("DISCONNECT" in string_data):
+                    message_position_begin = string_data.find("DISCONNECT_")
+                    message_position_end = string_data.find("_ENDIP")
+                    full_message = string_data[message_position_begin:message_position_end]
+                    ip_port = full_message.split("_")[1]
+                    del self.users[ip_port]
+
 
                 if ("CLIENTMESSAGE" in string_data):            # channel switching message?
                     message_position_begin = string_data.find("CLIENTMESSAGE_")
@@ -82,9 +98,9 @@ class Client:
 
             except Exception as e:
                 print("[ERROR] Receiving Data" + str(e))
-                self.send_disconnect()
+                self.send_message_to_server("DISCONNECT")
                 self.s.close()
-                sys.exit()
+                break
 
     def send_data_to_server(self):
         """ Send audio data to socket """
@@ -94,12 +110,19 @@ class Client:
                 data = self.recording_stream.read(self.chunk_size, exception_on_overflow = False)   # record audio and send it if not muted
                 if (not self.muted) and (self.current_room != "Connect"):
                     self.s.sendall(data)
-
             except Exception as e:
-                self.send_disconnect()
+                self.send_message_to_server("DISCONNECT")
                 self.s.close()
                 print("[ERROR] Sending Data" + str(e))
-                sys.exit()
+                break
+
+    def send_message_to_server(self, message):
+        """ Send custom message to server """
+        try:
+            self.s.send(str(message).encode())
+            print("[SEND]" + str(message))
+        except:
+            print("[ERROR] Sending message: " + str(message))
 
     def enter_room(self, name):
         """ Sends message to s socket with the room name
@@ -116,4 +139,4 @@ class Client:
             self.s.send(str(message).encode())
         except:
             pass
-        print("[DISCONNECT]")
+        print("\n [DISCONNECT]")
