@@ -23,12 +23,32 @@ function close_program() {
 
 
 // PYTHON -> JAVASCRIPT
+
+// WHEN A USER CLICKS CONNECT BUTTON
+eel.expose(display_online_users)
+function display_online_users(users_connect) {
+
+    // Go through online users and create divs
+    var parent = document.getElementById("onlineusers_div");
+    var child = document.createElement("onlineuser_div");
+    var ips = users_connect.split(",");
+
+    var amount_users = ips.length;
+    for (var i = 0; i < amount_users; i++) {
+        child.innerHTML = ips[i];
+        child.id = "onlineuser_div";
+        child.className = "onlineuser_div";
+        parent.appendChild(child);
+    }
+
+}
+
 eel.expose(update_users_view)
 function update_users_view(users_connect, users_room1, users_room2, users_room3) {
 
     // DISPLAY USER AMOUNT
-    var text = document.getElementById("users_online_text");
-    text.innerText = "Users online: "  + users_connect;
+    //var text = document.getElementById("users_online_text");
+    //text.innerText = users_connect;
 
     // Show dictionairy users in divs
     var users_div = document.getElementById("room1_users");

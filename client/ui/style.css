@@ -23,6 +23,36 @@ body {
   z-index: 1;
   background-color: #251c3b;
 }
+
+.addroombutton {
+  color: #9c98a6;
+  background-color: #251c3b;
+
+  font-size: 1em;
+  padding: 16px;
+  margin-bottom: 30px;
+  margin-left: 16px;
+  margin-right: 16px;
+  margin-top: 16px;
+
+  outline: none;
+  border-radius: 25px;
+  border: 0;
+  display: flex;
+}
+.addroombutton:hover {
+  background-color: #463d58;
+  border-radius: 10px;
+  color: white;
+}
+.addicon {
+    justify-content: center;
+    align-items: center;
+    fill: #FB5EAC;
+    width: 8%;
+    height: 8%;
+}
+
 .serverbutton {
   color: #9c98a6;
   background-color: #251c3b;
@@ -56,6 +86,12 @@ body {
     align-items: center;
     margin-left: 20px;
 }
+.rooms_header {
+    margin-left: 30px;
+    color: #9c98a6;
+    font-size: 14px;
+    letter-spacing: 2px;
+}
 .roombutton {
   color: #9c98a6;
   background-color: #251c3b;
@@ -67,13 +103,13 @@ body {
   margin-right: 16px;
   margin-top: 10px;
   outline: none;
-  border-radius: 25px;
+  border-radius: 10px;
   border: 0;
   display: flex;
 }
 .roombutton:hover {
   background-color: #463d58;
-  border-radius: 25px;
+  border-radius: 10px;
   color: white;
 }
 .roomicon {
@@ -90,16 +126,28 @@ body {
     padding-left: 20px;
 }
 .online_users_text {
+    margin-left: 30px;
     color: #9c98a6;
-    padding-left: 20px;
-    margin: 0;
+    font-size: 14px;
 }
-.online_users_overview {
+
+/* ONLINE USERS */
+.online_users_header {
+    margin-top: 40px;
+    margin-left: 30px;
     color: #9c98a6;
-    display: flex;
+    font-size: 14px;
+    letter-spacing: 2px;
+}
+.onlineusers_div {
+    background-color: white;
+    margin-left: 30px;
+}
+.onlineuser_div {
+    color: #9c98a6;
     justify-content: center;
+    display: flex;
     align-items: center;
-    padding-top: 200px;
 }
 
 

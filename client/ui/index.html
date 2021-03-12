@@ -20,10 +20,19 @@
     <!-- Left Sidebar with rooms -->
     <div class="sidenav">
 
+      <!-- Connect button -->
       <div type="button" onclick="connect_button_pressed()" class = "serverbutton">
         <img class = "servericon" src="graphics/wireless.svg"/>
         <h class = "servertext">54.37.205.19</h>
       </div>
+
+      <!-- Create room -->
+      <div type="button" onclick="" class = "addroombutton">
+        <img class = "addicon" src="graphics/plus.svg"/>
+        <h class = "servertext">New room</h>
+      </div>
+
+      <p id="rooms_header" class = "rooms_header">ROOMS</p>
       <div id="room1_button" type="button" onclick="enter_room('room1')" class = "roombutton">
         <img class = "roomicon" src="graphics/voiceroomicon.svg"/>
         <h class = "roomtext">Room1</h>
@@ -44,7 +53,11 @@
         <h class = "roomtext">Text Chat</h>
       </div>
 
-      <p id="users_online_text" class = "online_users_overview">Not connected</p>
+      <!-- Users view -->
+      <div id ="onlineusers_div">
+        <p class = "online_users_header">USERS</p>
+      </div>
+
 
     </div>
 

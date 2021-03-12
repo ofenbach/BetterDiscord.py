@@ -1,4 +1,5 @@
 import eel
+import json
 
 """ COMMUNICATION BETWEEN PYTHON AND JAVASCRIPT """
 
@@ -24,7 +25,14 @@ def startUI(client):
         users_room2 = [k for k, v in client.users.items() if str(v) == "room2"]             # convert user dict to actual ip list
         users_room3 = [k for k, v in client.users.items() if str(v) == "room3"]             # convert user dict to actual ip list
 
-        eel.update_users_view(str(users_connect_room), str(users_room1), str(users_room2), str(users_room3))
+        all_users = str([k for k, v in client.users.items()])
+        all_users=all_users.replace("[", "")
+        all_users=all_users.replace("]", "")
+        #all_users+=","
+        print(all_users)
+
+        eel.update_users_view(all_users, str(users_room1), str(users_room2), str(users_room3))  # user room view
+        eel.display_online_users(all_users)
 
     @eel.expose
     def enter_room(room_name):

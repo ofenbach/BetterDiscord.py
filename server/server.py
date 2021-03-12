@@ -14,7 +14,18 @@ __status__     =    "Production"
 
 class Server:
     """ Server that creates one socket that users can connect to
-        Manages rooms (who to send audio to) and client messages """
+        Manages rooms (who to send audio to) and client messages
+
+        Communication Protocol:
+            When a client connects, he receives self.ips as a string
+            A client can send the following messages:
+                ROOMSWITCH_name_END
+                DISCONNECT
+
+            The Server sends these messages to every client
+                ROOMSWITCH_name_END_IP_IPEND
+                DISCONNCET_IP_IPEND
+            The IP of the sender gets appended so every other client knows who send it  """
 
     # server access
     port = 4848
@@ -54,8 +65,10 @@ class Server:
         while 1:
             try:
 
-                data = user.recv(self.chunk_size)       # receive data from user conn
-                string_data = data.decode('utf-8', "ignore")
+                full_data = user.recv(self.chunk_size)       # receive data from user conn
+                audio_data = full_data
+                message_data = full_data
+                string_data = full_data.decode('utf-8', "ignore")
 
                 if ("ROOMSWITCH" in string_data):
                     message_position_begin = string_data.find("ROOMSWITCH_")    # find message in data string
@@ -69,9 +82,10 @@ class Server:
 
                     message_data = (str(full_message) + "_" + str(ip_port) + "_IPEND").encode()  # append IP to message
                     string_data.replace(full_message, "")  # remove message from audio
-                    data = string_data.encode()
+                    audio_data = string_data.encode()
 
                     print("[ROOMSWITCH] " + str(ip_port) + " to " + str(message))
+                    print("[SEND]: " + str(full_message) + "_" + str(ip_port) + "_IPEND")
                     print("[STATUS] " + str(self.ips))
 
                 if ("DISCONNECT" in string_data):
@@ -80,13 +94,14 @@ class Server:
                     del self.users[user]
 
                     message_data = ("DISCONNECT_" + str(ip_port) + "_IPEND").encode()       # append IP to message
-                    string_data.replace(full_message, "")                                   # remove message from audio
-                    data = string_data.encode()
+                    string_data.replace("DISCONNECT", "")                                   # remove message from audio
+                    audio_data = string_data.encode()
 
                     print("[USER LEFT] " + str(ip_port))
+                    print("[SEND]: " + "DISCONNECT_" + str(ip_port) + "_IPEND")
                     print("[STATUS] " + str(self.ips))
 
-                self.send_audio_to_users(user, data)    # start sending data to everyone inclusive messages
+                self.send_audio_to_users(user, audio_data)    # start sending data to everyone inclusive messages
                 self.send_message_to_users(user, message_data)
 
             except socket.error:
